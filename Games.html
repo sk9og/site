@@ -37,8 +37,6 @@
     gap: 25px;
 }
 
-/* links */
-
 .tb-links {
     display: flex;
     align-items: center;
@@ -58,8 +56,6 @@
 .tb-link img {
     height: 36px;
 }
-
-/* profile */
 
 .profile-box {
     display: flex;
@@ -81,8 +77,6 @@
     font-weight: bold;
     font-size: 15px;
 }
-
-/* dropdown */
 
 .profile-dropdown {
     position: absolute;
@@ -107,18 +101,7 @@
     display: flex;
 }
 
-/* ------------------------------- */
-/* END — ORIGINAL TOPBAR           */
-/* ------------------------------- */
-
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #40006e, #8100b4);
-    margin: 0;
-    padding: 20px;
-}
-
-/* Rounded topbar you wanted to KEEP */
+/* CLEAN ROUNDED TOPBAR */
 .clean-topbar{
   position:fixed;top:15px;left:50%;transform:translateX(-50%);
   width:92%;height:60px;background:rgba(0,0,0,0.25);
@@ -132,6 +115,13 @@ body {
 .tb-link:hover{background:rgba(255,255,255,0.06)}
 .tb-right{display:flex;align-items:center;gap:10px}
 .tb-pfp{width:34px;height:34px;border-radius:50%;border:2px solid #ffdd00;object-fit:cover}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #40006e, #8100b4);
+    margin: 0;
+    padding: 20px;
+}
 
 h1 {
     text-align: center;
@@ -217,12 +207,12 @@ h1 {
 
 <body>
 
-<!-- TOPBAR (unchanged) -->
+<!-- TOPBAR -->
 <div class="clean-topbar">
   <div class="tb-left">
     <a href="index.html" class="tb-link">
-    <img src="images/3RROR5TUDIOS.png" class="tb-logo" alt="logo">
-</a>
+        <img src="images/3RROR5TUDIOS.png" class="tb-logo" alt="logo">
+    </a>
     <span class="tb-title">3RROR5TUDIOS</span>
     <a href="Games.html" class="tb-link">Games</a>
     <a href="ERRORVERSE.html" class="tb-link">Errorverse</a>
@@ -272,7 +262,6 @@ h1 {
 
 <!-- GAMES SCRIPT -->
 <script>
-
 const games = [
   { title: 'The Legend Of Phil A. Buster', price: 3.49, category: 'Roguelike', available: false, subscription: false, image: 'images/thelegendofphilabuster.png', issue: '' },
   { title: 'Shadows Behind The Throne', price: 9.99, category: 'Strategy', available: false, subscription: true, image: 'images/shadows.png', issue: '' },
@@ -364,82 +353,58 @@ maxPrice.addEventListener('input', filterGames);
 subscriptionFilter.addEventListener('change', filterGames);
 availableFilter.addEventListener('change', filterGames);
 sortOption.addEventListener('change', filterGames);
-
 </script>
 
-<!-- PROFILE SYSTEM -->
+<!-- PROFILE SYSTEM (CLEAN + PLAYFAB ONLY) -->
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const savedName = localStorage.getItem("profileName");
-    const savedAvatar = localStorage.getItem("profileAvatar");
-
-    if (savedName) document.getElementById("profileName").textContent = savedName;
-    if (savedAvatar) document.getElementById("profileAvatar").src = savedAvatar;
-});
-
-function logout() {
-    localStorage.removeItem("profileName");
-    localStorage.removeItem("profileAvatar");
-    window.location.href = "login.html";
-}
-PlayFab.settings.titleId = "1FC26D";
-
 document.addEventListener("DOMContentLoaded", () => {
     const navbarName = document.getElementById("profileName");
     const navbarPFP  = document.getElementById("profileAvatar");
 
-    // Load cached values immediately for smooth UI experience
+    // Load cached values instantly
     const cachedName = localStorage.getItem("CUSTOM_USERNAME");
     const cachedAvatar = localStorage.getItem("CUSTOM_AVATAR");
 
     if (cachedName) navbarName.textContent = cachedName;
     if (cachedAvatar) navbarPFP.src = cachedAvatar;
 
-    // --- PlayFab Setup ---
     PlayFab.settings.titleId = "1FC26D";
 
     const sessionTicket = localStorage.getItem("PLAYFAB_SESSIONTICKET");
     const playfabId = localStorage.getItem("PLAYFAB_PLAYFABID");
 
     if (!sessionTicket || !playfabId) {
-        console.log("No PlayFab session found. Running in guest mode.");
+        console.log("Guest mode - no PlayFab session");
         return;
     }
 
-    // Restore PlayFab session
     PlayFab.settings.sessionTicket = sessionTicket;
 
-    // --- FETCH DISPLAY NAME + AVATAR FROM PLAYFAB ---
+    // Fetch account info (display name + avatar URL)
     PlayFabClientAPI.GetAccountInfo({}, (res) => {
-
         const info = res.data?.accountInfo;
         if (!info) return;
 
-        const displayName = info.titleInfo?.displayName || cachedName || "User";
-        const avatarUrl   = info.titleInfo?.avatarUrl   || cachedAvatar || "images/default_avatar.png";
+        const name = info.titleInfo?.displayName || cachedName || "User";
+        const avatar = info.titleInfo?.avatarUrl || cachedAvatar || "images/default_avatar.png";
 
-        // Save globally for ALL pages
-        localStorage.setItem("CUSTOM_USERNAME", displayName);
-        localStorage.setItem("CUSTOM_AVATAR", avatarUrl);
+        localStorage.setItem("CUSTOM_USERNAME", name);
+        localStorage.setItem("CUSTOM_AVATAR", avatar);
 
-        // Update navbar in Games.html
-        navbarName.textContent = displayName;
-        navbarPFP.src = avatarUrl;
-
-    }, (err) => {
-        console.warn("GetAccountInfo failed:", err);
+        navbarName.textContent = name;
+        navbarPFP.src = avatar;
     });
 
-    // --- OPTIONAL: Sync UserData Avatar (if stored separately) ---
+    // Fetch UserData avatar (optional)
     PlayFabClientAPI.GetUserData({}, (res) => {
         const data = res.data?.Data;
-        if (data && data.avatarUrl && data.avatarUrl.Value) {
-            const serverAvatar = data.avatarUrl.Value;
+        if (data && data.avatarUrl?.Value) {
+            const avatar = data.avatarUrl.Value;
 
-            localStorage.setItem("CUSTOM_AVATAR", serverAvatar);
-            navbarPFP.src = serverAvatar;
+            localStorage.setItem("CUSTOM_AVATAR", avatar);
+            navbarPFP.src = avatar;
         }
-    }, () => {});
+    });
 });
 
 function logout() {
