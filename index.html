@@ -26,16 +26,12 @@
     <span id="profileName">User</span>
   </div>
 </div>
-<body>
-
 
 <div class="slider-container">
 
-    <!-- Pijlen -->
     <button class="arrow left">❮</button>
     <button class="arrow right">❯</button>
 
-    <!-- Slides -->
     <div class="slider">
 
         <div class="slide" style="--bg:url('images/wsxbg.png')">
@@ -81,16 +77,14 @@
 
     </div>
 
-    <!-- Dots navigatie -->
     <div class="dots"></div>
 
 </div>
 
-<!-- JS pad -->
 <script src="js/slider.js"></script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4043534942165629"
      crossorigin="anonymous"></script>
-<!-- idkanameforthis -->
+
 <ins class="adsbygoogle"
      style="display:block"
      data-ad-client="ca-pub-4043534942165629"
@@ -100,7 +94,50 @@
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-</body>
+
+<!-- 🔥 PLAYFAB PROFILE SYSTEM (same as Games.html) -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const savedName = localStorage.getItem("profileName");
+    const savedAvatar = localStorage.getItem("profileAvatar");
+
+    if (savedName) document.getElementById("profileName").textContent = savedName;
+    if (savedAvatar) document.getElementById("profileAvatar").src = savedAvatar;
+});
+
+function logout() {
+    localStorage.removeItem("profileName");
+    localStorage.removeItem("profileAvatar");
+    localStorage.removeItem("playfabSessionTicket");
+    window.location.href = "login.html";
+}
+
+PlayFab.settings.titleId = "1FC26D";
+
+const sessionTicket = localStorage.getItem("playfabSessionTicket");
+
+if (sessionTicket) {
+    PlayFab.settings.sessionTicket = sessionTicket;
+
+    PlayFabClient.GetAccountInfo({}, (res, err) => {
+        if (err) {
+            console.log("PlayFab error:", err);
+            return;
+        }
+
+        const info = res.data?.accountInfo;
+
+        const displayName = info?.titleInfo?.displayName || "User";
+        const avatarUrl = info?.titleInfo?.avatarUrl || "images/default_avatar.png";
+
+        localStorage.setItem("profileName", displayName);
+        localStorage.setItem("profileAvatar", avatarUrl);
+
+        document.getElementById("profileName").textContent = displayName;
+        document.getElementById("profileAvatar").src = avatarUrl;
+    });
+}
+</script>
 
 <style>
   body {
@@ -128,4 +165,5 @@
 .tb-pfp{width:34px;height:34px;border-radius:50%;border:2px solid #ffdd00;object-fit:cover}
 </style>
 
+</body>
 </html>
