@@ -384,31 +384,70 @@ function logout() {
 }
 PlayFab.settings.titleId = "1FC26D";
 
-// If the user logged in previously, you should already have a PlayFab session ticket saved
-const sessionTicket = localStorage.getItem("playfabSessionTicket");
+document.addEventListener("DOMContentLoaded", () => {
+    const navbarName = document.getElementById("profileName");
+    const navbarPFP  = document.getElementById("profileAvatar");
 
-if (sessionTicket) {
+    // Load cached values immediately for smooth UI experience
+    const cachedName = localStorage.getItem("CUSTOM_USERNAME");
+    const cachedAvatar = localStorage.getItem("CUSTOM_AVATAR");
+
+    if (cachedName) navbarName.textContent = cachedName;
+    if (cachedAvatar) navbarPFP.src = cachedAvatar;
+
+    // --- PlayFab Setup ---
+    PlayFab.settings.titleId = "1FC26D";
+
+    const sessionTicket = localStorage.getItem("PLAYFAB_SESSIONTICKET");
+    const playfabId = localStorage.getItem("PLAYFAB_PLAYFABID");
+
+    if (!sessionTicket || !playfabId) {
+        console.log("No PlayFab session found. Running in guest mode.");
+        return;
+    }
+
+    // Restore PlayFab session
     PlayFab.settings.sessionTicket = sessionTicket;
 
-    PlayFabClient.GetAccountInfo({}, (res, err) => {
-        if (err) {
-            console.log("PlayFab error:", err);
-            return;
-        }
+    // --- FETCH DISPLAY NAME + AVATAR FROM PLAYFAB ---
+    PlayFabClientAPI.GetAccountInfo({}, (res) => {
 
         const info = res.data?.accountInfo;
+        if (!info) return;
 
-        const displayName = info?.titleInfo?.displayName || "User";
-        const avatarUrl = info?.titleInfo?.avatarUrl || "images/default_avatar.png";
+        const displayName = info.titleInfo?.displayName || cachedName || "User";
+        const avatarUrl   = info.titleInfo?.avatarUrl   || cachedAvatar || "images/default_avatar.png";
 
-        // Save to localStorage so ALL PAGES see it
-        localStorage.setItem("profileName", displayName);
-        localStorage.setItem("profileAvatar", avatarUrl);
+        // Save globally for ALL pages
+        localStorage.setItem("CUSTOM_USERNAME", displayName);
+        localStorage.setItem("CUSTOM_AVATAR", avatarUrl);
 
-        // Update UI immediately
-        document.getElementById("profileName").textContent = displayName;
-        document.getElementById("profileAvatar").src = avatarUrl;
+        // Update navbar in Games.html
+        navbarName.textContent = displayName;
+        navbarPFP.src = avatarUrl;
+
+    }, (err) => {
+        console.warn("GetAccountInfo failed:", err);
     });
+
+    // --- OPTIONAL: Sync UserData Avatar (if stored separately) ---
+    PlayFabClientAPI.GetUserData({}, (res) => {
+        const data = res.data?.Data;
+        if (data && data.avatarUrl && data.avatarUrl.Value) {
+            const serverAvatar = data.avatarUrl.Value;
+
+            localStorage.setItem("CUSTOM_AVATAR", serverAvatar);
+            navbarPFP.src = serverAvatar;
+        }
+    }, () => {});
+});
+
+function logout() {
+    localStorage.removeItem("CUSTOM_USERNAME");
+    localStorage.removeItem("CUSTOM_AVATAR");
+    localStorage.removeItem("PLAYFAB_SESSIONTICKET");
+    localStorage.removeItem("PLAYFAB_PLAYFABID");
+    window.location.href = "login.html";
 }
 </script>
 
