@@ -14,19 +14,6 @@
 /* PERFECT ORIGINAL ROUNDED TOPBAR */
 /* ------------------------------- */
 
-.clean-topbar {
-    width: 95%;
-    margin: 25px auto 0 auto;
-    padding: 14px 25px;
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(12px);
-    border-radius: 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 0 16px rgba(0,0,0,0.25);
-}
-
 .tb-left {
     display: flex;
     align-items: center;
@@ -232,31 +219,28 @@ h1 {
         <a href="index.html">
             <img src="images/3RROR5TUDIOS.png" class="tb-logo">
         </a>
-        <h1 class="tb-title">Games</h1>
+        <h1 class="tb-title">ERRORVERSE</h1>
     </div>
 
-    <div class="tb-right">
+    <div class="tb-links">
+        <a class="tb-link" href="Games.html">
+            <img src="images/controll.png">
+            Games
+        </a>
 
-        <div class="tb-links">
-            <a class="tb-link" href="Games.html">
-                <img src="images/controll.png">
-                GAMES
-            </a>
+        <a class="tb-link" href="ERRORVERSE.html">
+            <img src="images/ERRORVERSE.png">
+            Errorverse
+        </a>
+    </div>
 
-            <a class="tb-link" href="ERRORVERSE.html">
-                <img src="images/ERRORVERSE.png">
-                ERRORVERSE
-            </a>
-        </div>
+    <div class="profile-box">
+        <img id="profileAvatar" src="images/defaultpfp.png">
+        <span id="profileName">User</span>
 
-        <div class="profile-box">
-            <img id="profileAvatar" src="images/defaultpfp.png">
-            <span id="profileName">User</span>
-
-            <div class="profile-dropdown">
-                <a href="profile.html">Profile</a>
-                <a href="#" onclick="logout()">Logout</a>
-            </div>
+        <div class="profile-dropdown">
+            <a href="profile.html">Profile</a>
+            <a href="#" onclick="logout()">Logout</a>
         </div>
     </div>
 </div>
@@ -301,6 +285,28 @@ h1 {
 <script>
 /* your full games script (unchanged) */
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const savedName = localStorage.getItem("profileName");
+    const savedAvatar = localStorage.getItem("profileAvatar");
+
+    if (savedName) {
+        document.getElementById("profileName").textContent = savedName;
+    }
+
+    if (savedAvatar) {
+        document.getElementById("profileAvatar").src = savedAvatar;
+    }
+});
+
+function logout() {
+    localStorage.removeItem("profileName");
+    localStorage.removeItem("profileAvatar");
+    window.location.href = "login.html";
+}
+</script>
+
 
 </body>
 </html>

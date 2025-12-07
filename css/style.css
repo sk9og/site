@@ -44,6 +44,101 @@ body {
     transition: transform 0.3s ease;
 }
 
+.clean-topbar {
+    width: 95%;
+    margin: 25px auto 0 auto;
+    padding: 14px 25px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    border-radius: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 0 16px rgba(0,0,0,0.25);
+}
+
+.tb-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tb-logo {
+    height: 48px;
+}
+
+.tb-title {
+    font-size: 26px;
+    color: white;
+    font-weight: bold;
+    margin: 0;
+}
+
+.tb-links {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.tb-link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tb-link img {
+    height: 36px;
+}
+
+.profile-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+#profileAvatar {
+    height: 42px;
+    width: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#profileName {
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.profile-dropdown {
+    position: absolute;
+    right: 0;
+    top: 55px;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 15px;
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+}
+
+.profile-dropdown a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.profile-box:hover .profile-dropdown {
+    display: flex;
+}
+
+
 .content {
     background: rgba(0,0,0,0);
     padding: 40px 50px;
