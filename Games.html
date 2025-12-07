@@ -118,6 +118,19 @@ body {
     margin: 0;
     padding: 20px;
 }
+.clean-topbar{
+  position:fixed;top:15px;left:50%;transform:translateX(-50%);
+  width:92%;height:60px;background:rgba(0,0,0,0.25);
+  border-radius:18px;backdrop-filter:blur(12px);padding:0 25px;
+  display:flex;justify-content:space-between;align-items:center;z-index:9999;
+}
+.tb-left{display:flex;align-items:center;gap:18px}
+.tb-logo{height:36px}
+.tb-title{font-size:20px;font-weight:700;color:#fff;margin-right:10px}
+.tb-link{color:#fff;text-decoration:none;font-size:16px;padding:6px 10px;border-radius:8px;transition:.15s}
+.tb-link:hover{background:rgba(255,255,255,0.06)}
+.tb-right{display:flex;align-items:center;gap:10px}
+.tb-pfp{width:34px;height:34px;border-radius:50%;border:2px solid #ffdd00;object-fit:cover}
 h1 {
     text-align: center;
     margin-bottom: 10px;
@@ -215,34 +228,23 @@ h1 {
 <!-- =========================== -->
 
 <div class="clean-topbar">
-    <div class="tb-left">
-        <a href="index.html">
-            <img src="images/3RROR5TUDIOS.png" class="tb-logo">
-        </a>
-        <h1 class="tb-title">ERRORVERSE</h1>
-    </div>
+  <div class="tb-left">
+    <img src="images/3RROR5TUDIOS.png" class="tb-logo" alt="logo">
+    <span class="tb-title">3RROR5TUDIOS</span>
+    <a href="Games.html" class="tb-link">Games</a>
+    <a href="ERRORVERSE.html" class="tb-link">Errorverse</a>
+  </div>
 
-    <div class="tb-links">
-        <a class="tb-link" href="Games.html">
-            <img src="images/controll.png">
-            Games
-        </a>
+  <div class="tb-right" id="profileButton" role="button" aria-haspopup="true">
+    <img id="profileAvatar" src="images/default_avatar.png" class="tb-pfp" alt="avatar">
+    <span id="profileName">User</span>
+  </div>
+</div>
 
-        <a class="tb-link" href="ERRORVERSE.html">
-            <img src="images/ERRORVERSE.png">
-            Errorverse
-        </a>
-    </div>
-
-    <div class="profile-box">
-        <img id="profileAvatar" src="images/defaultpfp.png">
-        <span id="profileName">User</span>
-
-        <div class="profile-dropdown">
-            <a href="profile.html">Profile</a>
-            <a href="#" onclick="logout()">Logout</a>
-        </div>
-    </div>
+<!-- dropdown -->
+<div id="profileDropdown" aria-hidden="true">
+  <button id="openCustomizer">Customize Profile</button>
+  <button id="logoutBtn">Logout</button>
 </div>
 
 <!-- =========================== -->
