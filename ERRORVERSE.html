@@ -1,458 +1,172 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3RROR5TUDIOS</title>
-  <link rel="icon" type="image/png" href="images/3RROR5TUDIOS.png">
+<meta charset="UTF-8">
+<title>Errorverse</title>
 
 <style>
-* { box-sizing: border-box; margin:0; padding:0; }
 
+/* ==== GENERAL ==== */
 body {
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #40006e, #8100b4);
-  color: white;
-  min-height: 100vh;
-  padding-top: 120px;  /* topbar space */
+    background: #5a00b5;
+    font-family: Arial, sans-serif;
+    margin: 0;
 }
 
-/* ============= TOP BAR ============= */
-.clean-topbar {
-    position: fixed;
-    top: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 92%;
-    height: 60px;
-
-    background: rgba(0, 0, 0, 0.25);
-    border-radius: 18px;
-
-    backdrop-filter: blur(12px);
-    padding: 0 25px;
-
+/* ==== TOP BAR ==== */
+.top-bar {
+    width: 95%;
+    margin: 20px auto;
+    background: #3d0072;
+    padding: 15px 20px;
+    border-radius: 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    z-index: 9999;
-}
-
-/* LEFT SIDE */
-.tb-left {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-}
-
-.tb-logo {
-    height: 36px;
-}
-
-.tb-title {
-    font-size: 20px;
-    font-weight: bold;
     color: white;
-    margin-right: 10px;
 }
 
-/* LINKS */
-.tb-link {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    padding: 6px 10px;
-    border-radius: 8px;
-    transition: 0.2s;
-}
-
-.tb-link:hover {
-    background: rgba(255,255,255,0.15);
-}
-
-/* RIGHT SIDE */
 .tb-right {
     display: flex;
     align-items: center;
     gap: 10px;
+    cursor: pointer;
 }
 
 .tb-pfp {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    border: 2px solid #ffdd00;
+    border: 2px solid gold;
 }
 
-.top-left {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.logo {
-  width: 40px;
-}
-
-.title { font-size: 22px; font-weight: bold; }
-
-.nav-item {
-  color: white;
-  text-decoration: none;
-  opacity: 0.8;
-}
-.nav-item:hover { opacity: 1; }
-
-/* RIGHT SIDE */
-.top-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-#profileButton {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-}
-
-.avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 2px solid #ffdd00;
-}
-
-/* DROPDOWN */
+/* ==== DROPDOWN ==== */
 #profileDropdown {
-  position: absolute;
-  top: 75px;
-  right: 30px;
-  width: 180px;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(8px);
-  border-radius: 10px;
-  padding: 10px;
-  display: none;
-  animation: fade 0.15s ease-out;
+    position: absolute;
+    right: 40px;
+    top: 75px;
+    background: #3d0072;
+    border-radius: 15px;
+    padding: 10px;
+    display: none;
 }
 
-#profileDropdown button {
-  width: 100%;
-  background: #c300ff;
-  border: none;
-  padding: 8px;
-  border-radius: 8px;
-  color: white;
-  margin-bottom: 8px;
-  cursor: pointer;
+#logoutBtn {
+    background: #ff3e3e;
+    border: none;
+    padding: 8px 14px;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
-@keyframes fade {
-  from { opacity: 0; transform: translateY(-6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* CARDS */
+/* ==== CARDS ==== */
 .card {
-  background: rgba(0,0,0,0.4);
-  padding: 20px;
-  border-radius: 12px;
-  max-width: 500px;
-  margin: 30px auto;
+    width: 90%;
+    max-width: 500px;
+    background: #ffffff20;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 20px auto;
+    color: white;
+    backdrop-filter: blur(8px);
 }
 
-/* INVENTORY GRID */
-.grid { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); 
-  gap: 20px; 
+.inventory-card {
+    background: #ffffff10;
 }
 
-.tile {
-  background: rgba(255,255,255,0.08);
-  padding: 10px;
-  text-align: center;
-  border-radius: 10px;
-}
-.tile img { width:100%; border-radius: 10px; }
-
-/* PROFILE CUSTOMIZER */
-#profileCustomizer {
-  background: rgba(0,0,0,0.3);
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 15px;
-  border-radius: 12px;
-  display: none;
-  animation: fade 0.2s;
-}
-
-#profileCustomizer img {
-  width: 64px; height: 64px; border-radius: 50%; margin:auto;
-}
-
-.hidden { display:none !important; }
 </style>
 </head>
-
-
-
-
 <body>
 
-<!-- REAL TOP BAR -->
-<div class="clean-topbar">
+<!-- ===== TOP BAR ===== -->
+<div class="top-bar">
+
     <div class="tb-left">
-        <img src="images/3RROR5TUDIOS.png" class="tb-logo">
-        <span class="tb-title">ERRORVERSE</span>
-
-        <a href="Games.html" class="tb-link">Games</a>
-        <a href="ERRORVERSE.html" class="tb-link">Errorverse</a>
+        <span style="font-size: 20px; font-weight: bold;">Errorverse</span>
     </div>
 
-    <div class="tb-right">
+    <div class="tb-right" id="profileButton">
         <img id="profileAvatar" src="images/default_avatar.png" class="tb-pfp">
-        <span id="profileName">User</span>
+        <span id="profileName">Guest</span>
     </div>
+
 </div>
 
 <!-- DROPDOWN -->
 <div id="profileDropdown">
-  <button id="openCustomizer">Customize Profile</button>
-  <button id="logoutBtn">Logout</button>
+    <button id="logoutBtn">Logout</button>
 </div>
 
-
-<!-- LOGIN CARD -->
+<!-- ===== LOGIN CARD (ALWAYS VISIBLE) ===== -->
 <div class="card" id="loginCard">
-  <h2>Login / Register</h2>
-  <label>Email</label>
-  <input id="email" placeholder="you@example.com">
-  <label>Password</label>
-  <input type="password" id="password" placeholder="min 6 chars">
-  <button id="loginBtnMain">Login</button>
-  <button id="registerBtn">Register</button>
-  <p id="status"></p>
+    <h2>Login</h2>
+    <input id="email" placeholder="Email"><br><br>
+    <input id="password" type="password" placeholder="Password"><br><br>
+    <button id="loginBtn">Login</button>
+</div>
+
+<!-- ===== PROFILE CUSTOMIZER CARD (ALWAYS VISIBLE) ===== -->
+<div class="card">
+    <h2>Customize Profile</h2>
+    <input id="displayNameInput" placeholder="Display Name"><br><br>
+    <button id="saveName">Save</button>
+</div>
+
+<!-- ===== INVENTORY CARD (SHOWS AFTER LOGIN) ===== -->
+<div class="card inventory-card" id="inventoryCard" style="display:none;">
+    <h2>Your Inventory</h2>
+    <div id="inventoryList">Loading...</div>
 </div>
 
 
-<!-- PROFILE CUSTOMIZER -->
-<div id="profileCustomizer">
-  <h3>Customize Profile</h3>
-  <img id="customAvatar" src="images/default_avatar.png">
-  <label>Username:</label>
-  <input type="text" id="customUsername">
-  <label>Avatar URL:</label>
-  <input type="text" id="customAvatarURL">
-  <button id="saveProfile">Save Changes</button>
-</div>
-
-
-<!-- INVENTORY -->
-<div class="card" id="inventoryCard" style="display:none;">
-  <h2>Your Inventory</h2>
-  <button id="refreshInv">Refresh Inventory</button>
-  <div class="grid" id="inventoryGrid"></div>
-</div>
-
-
-
-
-<!-- *******************************
-      PLAYFAB CLIENT LIBRARY
-********************************** -->
 <script>
-var PlayFab={settings:{titleId:"1FC26D"},_internalSettings:{sessionTicket:null}};
 
-var PlayFabClientAPI={
-  LoginWithEmailAddress:(req,success,error)=>{
-    req.TitleId=PlayFab.settings.titleId;
-    fetch("https://1FC26D.playfabapi.com/Client/LoginWithEmailAddress",{
-      method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(req)
-    }).then(r=>r.json()).then(x=>x.data?success(x):error(x));
-  },
-  RegisterPlayFabUser:(req,success,error)=>{
-    req.TitleId=PlayFab.settings.titleId;
-    fetch("https://1FC26D.playfabapi.com/Client/RegisterPlayFabUser",{
-      method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(req)
-    }).then(r=>r.json()).then(x=>x.data?success(x):error(x));
-  },
-  GetUserInventory:(req,success,error)=>{
-    fetch("https://1FC26D.playfabapi.com/Client/GetUserInventory",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
-        "X-Authorization":PlayFab._internalSettings.sessionTicket
-      },
-      body:"{}"
-    }).then(r=>r.json()).then(x=>x.data?success(x):error(x));
-  }
-};
-</script>
-
-
-
-<!-- *******************************
-      TOPBAR LOGIC
-********************************** -->
-<script>
+/* ===== TOP BAR DROPDOWN ===== */
 const profileButton = document.getElementById("profileButton");
 const profileDropdown = document.getElementById("profileDropdown");
-const navbarName = document.getElementById("profileName");
-const navbarPFP = document.getElementById("profileAvatar");
-const openCustomizer = document.getElementById("openCustomizer");
-const logoutBtn = document.getElementById("logoutBtn");
 
-function updateTopbarProfile(name, avatar="images/default_avatar.png"){
-  navbarName.textContent = name;
-  navbarPFP.src = avatar;
-}
-
-profileButton.onclick = ()=> {
-  profileDropdown.style.display =
-    profileDropdown.style.display === "block" ? "none" : "block";
+profileButton.onclick = () => {
+    profileDropdown.style.display =
+        profileDropdown.style.display === "block" ? "none" : "block";
 };
 
-openCustomizer.onclick = ()=>{
-  profileDropdown.style.display="none";
-  document.getElementById("profileCustomizer").style.display="block";
+/* ===== LOGOUT ===== */
+document.getElementById("logoutBtn").onclick = () => {
+    localStorage.clear();
+    document.getElementById("profileName").textContent = "Guest";
+    document.getElementById("profileAvatar").src = "images/default_avatar.png";
+    document.getElementById("inventoryCard").style.display = "none";
+    profileDropdown.style.display = "none";
 };
 
-logoutBtn.onclick=()=>{
-  localStorage.clear();
-  location.reload();
+/* ===== LOGIN (FAKE EXAMPLE) ===== */
+document.getElementById("loginBtn").onclick = () => {
+    const email = email.value.trim();
+    const pass = password.value.trim();
+
+    if (!email || !pass) {
+        alert("Enter login info");
+        return;
+    }
+
+    // pretend success
+    localStorage.setItem("loggedIn", "1");
+
+    document.getElementById("profileName").textContent = email.split("@")[0];
+    document.getElementById("inventoryCard").style.display = "block";
 };
 
-// Load saved profile
-(function(){
-  const name = localStorage.getItem("CUSTOM_USERNAME");
-  const avatar = localStorage.getItem("CUSTOM_AVATAR");
-  const pfid = localStorage.getItem("PLAYFAB_PLAYFABID");
+/* ===== SAVE DISPLAY NAME ===== */
+document.getElementById("saveName").onclick = () => {
+    const newName = displayNameInput.value.trim();
+    if (!newName) return;
 
-  if(pfid){
-    updateTopbarProfile(name||pfid, avatar||"images/default_avatar.png");
-  }
-})();
+    document.getElementById("profileName").textContent = newName;
+};
+
 </script>
-
-
-
-
-<!-- *******************************
-      LOGIN / INVENTORY LOGIC
-********************************** -->
-<script>
-const emailEl=document.getElementById("email");
-const passwordEl=document.getElementById("password");
-const statusEl=document.getElementById("status");
-const loginBtn=document.getElementById("loginBtnMain");
-const registerBtn=document.getElementById("registerBtn");
-const loginCard=document.getElementById("loginCard");
-const inventoryCard=document.getElementById("inventoryCard");
-const inventoryGrid=document.getElementById("inventoryGrid");
-const refreshBtn=document.getElementById("refreshInv");
-
-// Profile customizer
-const profileCustomizer=document.getElementById("profileCustomizer");
-const customUsername=document.getElementById("customUsername");
-const customAvatar=document.getElementById("customAvatar");
-const customAvatarURL=document.getElementById("customAvatarURL");
-const saveProfile=document.getElementById("saveProfile");
-
-function setStatus(msg,color="yellow"){
-  statusEl.style.color=color;
-  statusEl.textContent=msg;
-}
-
-function saveSession(res){
-  const d=res.data;
-  localStorage.setItem("PLAYFAB_PLAYFABID",d.PlayFabId);
-  localStorage.setItem("PLAYFAB_SESSIONTICKET",d.SessionTicket);
-  PlayFab._internalSettings.sessionTicket=d.SessionTicket;
-
-  updateTopbarProfile(d.PlayFabId);
-  loginCard.style.display="none";
-  inventoryCard.style.display="block";
-}
-
-loginBtn.onclick=()=>{
-  const email=emailEl.value.trim();
-  const pw=passwordEl.value.trim();
-  if(!email||pw.length<6){ setStatus("Invalid email/password","red"); return; }
-
-  setStatus("Logging in...");
-  PlayFabClientAPI.LoginWithEmailAddress(
-    {Email:email,Password:pw},
-    saveSession,
-    err=>setStatus(err.errorMessage||"Login failed","red")
-  );
-};
-
-registerBtn.onclick=()=>{
-  const email=emailEl.value.trim();
-  const pw=passwordEl.value.trim();
-  if(!email||pw.length<6){ setStatus("Invalid email/password","red"); return; }
-
-  setStatus("Registering...");
-  PlayFabClientAPI.RegisterPlayFabUser(
-    {Email:email,Password:pw,RequireBothUsernameAndEmail:false},
-    saveSession,
-    err=>setStatus(err.errorMessage||"Error","red")
-  );
-};
-
-function fetchInventory(){
-  inventoryGrid.innerHTML="Loading...";
-  PlayFabClientAPI.GetUserInventory({},res=>{
-    const items=res.data.Inventory||[];
-    inventoryGrid.innerHTML="";
-    if(items.length===0){ inventoryGrid.innerHTML="No items."; return; }
-
-    items.forEach(i=>{
-      inventoryGrid.innerHTML+=`
-        <div class="tile">
-          <img src="images/wsx.png">
-          <h3>${i.DisplayName||i.ItemId}</h3>
-          <p>Uses: ${i.RemainingUses||"—"}</p>
-        </div>`;
-    });
-  });
-}
-
-refreshBtn.onclick=fetchInventory;
-
-// Save profile
-saveProfile.onclick=()=>{
-  const name=customUsername.value.trim()||"User";
-  const avatar=customAvatarURL.value.trim()||"images/default_avatar.png";
-
-  navbarName.textContent=name;
-  navbarPFP.src=avatar;
-  customAvatar.src=avatar;
-
-  localStorage.setItem("CUSTOM_USERNAME",name);
-  localStorage.setItem("CUSTOM_AVATAR",avatar);
-
-  alert("Profile updated!");
-};
-
-// Auto session
-(function(){
-  const pfid=localStorage.getItem("PLAYFAB_PLAYFABID");
-  const name=localStorage.getItem("CUSTOM_USERNAME");
-  const avatar=localStorage.getItem("CUSTOM_AVATAR");
-  if(pfid){
-    updateTopbarProfile(name||pfid,avatar||"images/default_avatar.png");
-    loginCard.style.display="none";
-    inventoryCard.style.display="block";
-    fetchInventory();
-  }
-})();
-</script>
-
 
 </body>
 </html>
