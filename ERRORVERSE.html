@@ -14,91 +14,99 @@ body {
   background: linear-gradient(135deg, #40006e, #8100b4);
   color: white;
   min-height: 100vh;
-  padding: 20px;
+  padding-top: 120px;  /* topbar space */
 }
 
-/* HEADER */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 50px;
-}
-
-.logo-container img { width: 50px; height: 50px; }
-nav ul { display: flex; list-style: none; gap: 50px; }
-nav ul li { display: flex; align-items: center; }
-
-/* TOPBAR */
+/* ============= TOP BAR ============= */
 .topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  padding: 12px 15px;
-  background: rgba(0,0,0,0.3);
-  border-radius: 12px;
+  height: 70px;
+  background: rgba(0,0,0,0.25);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+
+  padding: 0 30px;
+  z-index: 9999;
+  backdrop-filter: blur(10px);
 }
 
-.topbar-left {
+.top-left {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-.nav-link { color: white; text-decoration: none; font-size: 14px; }
-.nav-link:hover { color: #ffdd00; }
-
-.topbar-right { display: flex; align-items: center; gap: 12px; }
-
-.login-btn {
-  background:#c300ff; 
-  padding:8px 14px; 
-  border-radius:6px; 
-  font-weight:bold; 
-  border:none; 
-  cursor:pointer;
+.logo {
+  width: 40px;
 }
 
-/* PROFILE AREA */
-.profile-area {
+.title { font-size: 22px; font-weight: bold; }
+
+.nav-item {
+  color: white;
+  text-decoration: none;
+  opacity: 0.8;
+}
+.nav-item:hover { opacity: 1; }
+
+/* RIGHT SIDE */
+.top-right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+}
+
+#profileButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
 }
 
-.pfp {
-  width: 32px; height: 32px;
+.avatar {
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   border: 2px solid #ffdd00;
 }
 
 /* DROPDOWN */
-.dropdown {
+#profileDropdown {
   position: absolute;
-  top: 70px;
-  right: 25px;
-  background: rgba(0,0,0,0.7);
+  top: 75px;
+  right: 30px;
+  width: 180px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
   border-radius: 10px;
   padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: none;
+  animation: fade 0.15s ease-out;
 }
 
-.dropdown button {
-  background:#c300ff; 
-  border:none;
-  border-radius:6px;
-  padding:8px;
-  cursor:pointer;
-  color:white;
+#profileDropdown button {
+  width: 100%;
+  background: #c300ff;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  color: white;
+  margin-bottom: 8px;
+  cursor: pointer;
 }
 
-.hidden { display:none !important; }
+@keyframes fade {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-/* CARD */
+/* CARDS */
 .card {
   background: rgba(0,0,0,0.4);
   padding: 20px;
@@ -107,21 +115,20 @@ nav ul li { display: flex; align-items: center; }
   margin: 30px auto;
 }
 
-/* INVENTORY */
+/* INVENTORY GRID */
 .grid { 
   display: grid; 
-  grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); 
+  grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); 
   gap: 20px; 
 }
 
 .tile {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.08);
   padding: 10px;
+  text-align: center;
   border-radius: 10px;
-  text-align:center;
 }
-
-.tile img { width: 100%; border-radius: 10px; }
+.tile img { width:100%; border-radius: 10px; }
 
 /* PROFILE CUSTOMIZER */
 #profileCustomizer {
@@ -131,51 +138,46 @@ nav ul li { display: flex; align-items: center; }
   padding: 15px;
   border-radius: 12px;
   display: none;
+  animation: fade 0.2s;
 }
 
 #profileCustomizer img {
   width: 64px; height: 64px; border-radius: 50%; margin:auto;
 }
+
+.hidden { display:none !important; }
 </style>
 </head>
 
+
+
+
 <body>
 
-<header>
-  <div class="logo-container">
-    <a href="index.html"><img src="images/3RROR5TUDIOS.png"></a>
-    <h1>Home</h1>
-  </div>
-  <nav>
-    <ul>
-      <li><a href="Games.html"><img src="images/controll.png" width="30"><p style="font-size:10px;">GAMES</p></a></li>
-      <li><a href="ERRORVERSE.html"><img src="images/ERRORVERSE.png" width="30"><p style="font-size:10px;">ERRORVERSE</p></a></li>
-    </ul>
-  </nav>
-</header>
+<!-- REAL TOP BAR -->
+<div class="topbar">
+    <div class="top-left">
+        <img src="images/3RROR5TUDIOS.png" class="logo">
+        <span class="title">ERRORVERSE</span>
 
-<!-- TOP BAR -->
-<nav class="topbar">
-  <div class="topbar-left">
-    <div class="logo">ERRORVERSE</div>
-    <a class="nav-link" href="#games">Games</a>
-    <a class="nav-link" href="#errorverse">Errorverse</a>
-  </div>
-
-  <div class="topbar-right">
-    <button id="topLoginBtn" class="login-btn">Login</button>
-
-    <div id="profileArea" class="profile-area hidden">
-      <img id="navbarPFP" class="pfp" src="images/default_avatar.png">
-      <span id="navbarName">Guest</span>
+        <a href="Games.html" class="nav-item">Games</a>
+        <a href="ERRORVERSE.html" class="nav-item">Errorverse</a>
     </div>
 
-    <div id="profileDropdown" class="dropdown hidden">
-      <button id="openCustomizer">Customize Profile</button>
-      <button id="logoutBtn">Logout</button>
+    <div class="top-right">
+        <div id="profileButton">
+            <img id="profileAvatar" class="avatar" src="images/default_avatar.png">
+            <span id="profileName">User</span>
+        </div>
     </div>
-  </div>
-</nav>
+</div>
+
+<!-- DROPDOWN -->
+<div id="profileDropdown">
+  <button id="openCustomizer">Customize Profile</button>
+  <button id="logoutBtn">Logout</button>
+</div>
+
 
 <!-- LOGIN CARD -->
 <div class="card" id="loginCard">
@@ -189,6 +191,7 @@ nav ul li { display: flex; align-items: center; }
   <p id="status"></p>
 </div>
 
+
 <!-- PROFILE CUSTOMIZER -->
 <div id="profileCustomizer">
   <h3>Customize Profile</h3>
@@ -200,6 +203,7 @@ nav ul li { display: flex; align-items: center; }
   <button id="saveProfile">Save Changes</button>
 </div>
 
+
 <!-- INVENTORY -->
 <div class="card" id="inventoryCard" style="display:none;">
   <h2>Your Inventory</h2>
@@ -207,7 +211,12 @@ nav ul li { display: flex; align-items: center; }
   <div class="grid" id="inventoryGrid"></div>
 </div>
 
-<!-- PLAYFAB -->
+
+
+
+<!-- *******************************
+      PLAYFAB CLIENT LIBRARY
+********************************** -->
 <script>
 var PlayFab={settings:{titleId:"1FC26D"},_internalSettings:{sessionTicket:null}};
 
@@ -237,51 +246,57 @@ var PlayFabClientAPI={
 };
 </script>
 
-<!-- TOPBAR LOGIC -->
+
+
+<!-- *******************************
+      TOPBAR LOGIC
+********************************** -->
 <script>
-const topLoginBtn=document.getElementById("topLoginBtn");
-const profileArea=document.getElementById("profileArea");
-const navbarPFP=document.getElementById("navbarPFP");
-const navbarName=document.getElementById("navbarName");
-const profileDropdown=document.getElementById("profileDropdown");
-const openCustomizer=document.getElementById("openCustomizer");
-const logoutBtn=document.getElementById("logoutBtn");
+const profileButton = document.getElementById("profileButton");
+const profileDropdown = document.getElementById("profileDropdown");
+const navbarName = document.getElementById("profileName");
+const navbarPFP = document.getElementById("profileAvatar");
+const openCustomizer = document.getElementById("openCustomizer");
+const logoutBtn = document.getElementById("logoutBtn");
 
-function updateTopbarProfile(name,avatar="images/default_avatar.png"){
-  navbarName.textContent=name;
-  navbarPFP.src=avatar;
-  topLoginBtn.classList.add("hidden");
-  profileArea.classList.remove("hidden");
+function updateTopbarProfile(name, avatar="images/default_avatar.png"){
+  navbarName.textContent = name;
+  navbarPFP.src = avatar;
 }
 
-function resetTopbar(){
-  profileDropdown.classList.add("hidden");
-  profileArea.classList.add("hidden");
-  topLoginBtn.classList.remove("hidden");
-}
+profileButton.onclick = ()=> {
+  profileDropdown.style.display =
+    profileDropdown.style.display === "block" ? "none" : "block";
+};
 
-navbarPFP.onclick=()=>profileDropdown.classList.toggle("hidden");
-
-openCustomizer.onclick=()=>{
-  profileDropdown.classList.add("hidden");
+openCustomizer.onclick = ()=>{
+  profileDropdown.style.display="none";
   document.getElementById("profileCustomizer").style.display="block";
 };
 
 logoutBtn.onclick=()=>{
   localStorage.clear();
-  resetTopbar();
   location.reload();
 };
 
+// Load saved profile
 (function(){
-  const name=localStorage.getItem("CUSTOM_USERNAME");
-  const avatar=localStorage.getItem("CUSTOM_AVATAR");
-  const pfid=localStorage.getItem("PLAYFAB_PLAYFABID");
-  if(pfid){ updateTopbarProfile(name||pfid,avatar||"images/default_avatar.png"); }
+  const name = localStorage.getItem("CUSTOM_USERNAME");
+  const avatar = localStorage.getItem("CUSTOM_AVATAR");
+  const pfid = localStorage.getItem("PLAYFAB_PLAYFABID");
+
+  if(pfid){
+    updateTopbarProfile(name||pfid, avatar||"images/default_avatar.png");
+  }
 })();
 </script>
 
-<!-- MAIN LOGIN / INVENTORY LOGIC -->
+
+
+
+<!-- *******************************
+      LOGIN / INVENTORY LOGIC
+********************************** -->
 <script>
 const emailEl=document.getElementById("email");
 const passwordEl=document.getElementById("password");
@@ -312,8 +327,6 @@ function saveSession(res){
   PlayFab._internalSettings.sessionTicket=d.SessionTicket;
 
   updateTopbarProfile(d.PlayFabId);
-  setStatus("Logged in!");
-
   loginCard.style.display="none";
   inventoryCard.style.display="block";
 }
@@ -364,7 +377,7 @@ function fetchInventory(){
 
 refreshBtn.onclick=fetchInventory;
 
-// Save custom profile
+// Save profile
 saveProfile.onclick=()=>{
   const name=customUsername.value.trim()||"User";
   const avatar=customAvatarURL.value.trim()||"images/default_avatar.png";
@@ -376,7 +389,7 @@ saveProfile.onclick=()=>{
   localStorage.setItem("CUSTOM_USERNAME",name);
   localStorage.setItem("CUSTOM_AVATAR",avatar);
 
-  setStatus("Profile updated!","#ffdd00");
+  alert("Profile updated!");
 };
 
 // Auto session
@@ -392,6 +405,7 @@ saveProfile.onclick=()=>{
   }
 })();
 </script>
+
 
 </body>
 </html>
