@@ -382,6 +382,34 @@ function logout() {
     localStorage.removeItem("profileAvatar");
     window.location.href = "login.html";
 }
+PlayFab.settings.titleId = "1FC26D";
+
+// If the user logged in previously, you should already have a PlayFab session ticket saved
+const sessionTicket = localStorage.getItem("playfabSessionTicket");
+
+if (sessionTicket) {
+    PlayFab.settings.sessionTicket = sessionTicket;
+
+    PlayFabClient.GetAccountInfo({}, (res, err) => {
+        if (err) {
+            console.log("PlayFab error:", err);
+            return;
+        }
+
+        const info = res.data?.accountInfo;
+
+        const displayName = info?.titleInfo?.displayName || "User";
+        const avatarUrl = info?.titleInfo?.avatarUrl || "images/default_avatar.png";
+
+        // Save to localStorage so ALL PAGES see it
+        localStorage.setItem("profileName", displayName);
+        localStorage.setItem("profileAvatar", avatarUrl);
+
+        // Update UI immediately
+        document.getElementById("profileName").textContent = displayName;
+        document.getElementById("profileAvatar").src = avatarUrl;
+    });
+}
 </script>
 
 </body>
